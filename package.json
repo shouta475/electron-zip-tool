@@ -1,0 +1,100 @@
+{
+  "name": "zip-tool",
+  "version": "1.0.0",
+  "description": "An Electron application with React and TypeScript",
+  "main": "./out/main/index.js",
+  "author": "example.com",
+  "homepage": "https://electron-vite.org",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint --cache .",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
+    "postinstall": "electron-builder install-app-deps",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:linux": "electron-vite build && electron-builder --linux",
+    "dist": "npm run build && electron-builder",
+    "wasm:target": "rustup target add wasm32-unknown-unknown",
+    "wasm:build": "cargo build --manifest-path ./wasm-src/Cargo.toml --target wasm32-unknown-unknown --release && mkdir -p ./resources/wasm && cp ./wasm-src/target/wasm32-unknown-unknown/release/zipcheck.wasm ./resources/wasm/",
+    "wasm:clean": "cargo clean --manifest-path ./wasm-src/Cargo.toml"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.2",
+    "@mui/material": "^7.1.2",
+    "7zip-bin": "^5.2.0",
+    "electron-log": "^5.4.1",
+    "iconv-lite": "^0.6.3",
+    "jschardet": "^3.1.4",
+    "node-7z": "^3.0.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config-prettier": "^3.0.0",
+    "@electron-toolkit/eslint-config-ts": "^3.0.0",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@types/node": "^22.14.1",
+    "@types/node-7z": "^2.1.10",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^35.1.5",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.1.0",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "prettier": "^3.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.6"
+  },
+  "build": {
+    "appId": "com.example.ziptool",
+    "productName": "ZipTool",
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/**",
+      "node_modules/**",
+      "package.json",
+      "resources/wasm/zipcheck.wasm"
+    ],
+    "mac": {
+      "target": "dmg",
+      "icon": "resources/icons/zip-tool-icon.icns",
+      "extendInfo": {
+        "CFBundleDocumentTypes": [
+          {
+            "CFBundleTypeExtensions": [
+              "zip"
+            ],
+            "CFBundleTypeName": "ZIP Archive",
+            "CFBundleTypeRole": "Viewer",
+            "LSHandlerRank": "Owner",
+            "CFBundleTypeIconFile": "zip"
+          }
+        ]
+      }
+    },
+    "asarUnpack": [
+      "node_modules/7zip-bin/**",
+      "resources/wasm/zipcheck.wasm"
+    ]
+  }
+}

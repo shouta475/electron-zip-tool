@@ -1,0 +1,16 @@
+# Node / Electron / Vite
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+
+
+# Rust / Cargo build
+wasm-src/target/
+wasm-src/Cargo.lock  
+wasm-src/pkg/
+
+# VS Code personal settings
+.vscode/*
