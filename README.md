@@ -1,5 +1,5 @@
 # zip-tool
-
+このアプリは練習用プロジェクトです。 
 An Electron application with React, TypeScript, and Rust (WASM).  
 パスワード付き ZIP の展開やファイルリスト表示をサポートします。
 
